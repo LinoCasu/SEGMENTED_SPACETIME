@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Exponential Triangle (λ → N gekoppelt)</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    svg {
+      margin-top: 2rem;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input[type=range] {
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Exponential Triangle Visualizer (λ steuert N)</h1>
+
+  <label for="lambda">Lambda (λ): <span id="lambdaValue">0.2</span></label>
+  <input type="range" id="lambda" min="0" max="1" step="0.01" value="0.2">
+
+  <p>N (automatisch aus λ): <span id="nValue">?</span></p>
+
+  <svg width="300" height="400" viewBox="0 0 300 400">
+    <polygon id="upperTriangle" fill="none" stroke="black" stroke-width="3" />
+    <polygon id="lowerTriangle" fill="none" stroke="black" stroke-width="3" />
+    <text id="upperText" x="140" fill="#38bdf8">λN</text>
+    <text id="lowerText" x="140" fill="#38bdf8">λt</text>
+
+    <text x="60" y="155">r₀e</text>
+    <text x="225" y="155">r(N)</text>
+    <text x="110" y="170" fill="#38bdf8">x</text>
+    <text x="200" y="170" fill="#38bdf8">z</text>
+
+    <text x="60" y="255">r₀e</text>
+    <text x="225" y="255">r(t)</text>
+    <text x="110" y="270" fill="#38bdf8">x</text>
+    <text x="200" y="270" fill="#38bdf8">z</text>
+  </svg>
+
+  <p id="equationResult">r(N) = r₀ · e^λN = ???</p>
+
+  <script>
+    const lambdaSlider = document.getElementById('lambda');
+    const lambdaValue = document.getElementById('lambdaValue');
+    const nValue = document.getElementById('nValue');
+    const upperTriangle = document.getElementById('upperTriangle');
+    const lowerTriangle = document.getElementById('lowerTriangle');
+    const upperText = document.getElementById('upperText');
+    const lowerText = document.getElementById('lowerText');
+    const equationResult = document.getElementById('equationResult');
+
+    function updateTriangles() {
+      const lambda = parseFloat(lambdaSlider.value);
+      const r0 = 1;
+      const n = Math.round(4 + 6 * lambda); // N wird aus λ berechnet
+      const rN = r0 * Math.exp(lambda * n);
+
+      lambdaValue.textContent = lambda.toFixed(2);
+      nValue.textContent = n;
+
+      const upperY = 150 - lambda * n * 40;
+      const lowerY = 250 + lambda * n * 40;
+
+      upperTriangle.setAttribute('points', `150,${upperY} 80,150 220,150`);
+      lowerTriangle.setAttribute('points', `150,${lowerY} 80,250 220,250`);
+
+      upperText.setAttribute('y', upperY - 10);
+      lowerText.setAttribute('y', lowerY + 30);
+
+      equationResult.textContent = `r(N) = r₀ · e^λN = ${rN.toFixed(4)}`;
+    }
+
+    lambdaSlider.addEventListener('input', updateTriangles);
+    window.onload = updateTriangles;
+  </script>
+</body>
+</html>
