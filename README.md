@@ -79,4 +79,8 @@ r(N) = r₀ * e^(λN)
 
 https://linocasu.github.io/SEGMENTED_SPACETIME/Slider.html
 
+## License
+
+*ANTI-CAPITALIST SOFTWARE LICENSE (v 1.4)* 2025 © Carmen Wrede and Lino Casu
+
 
